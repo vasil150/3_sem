@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#include <unistd.h>
+#include <sys/wait.h>
+#include <stdio.h>
+int main()
+{
+    int t = 0 ,k = 0,g = 0,st = 10;
+
+    char *s;
+    char** ms;
+    char c = 1;
+    ms = (char**) malloc(256 * sizeof(char*));
+    ms[0] = (char*) malloc(2097152 * sizeof(char));
+    s = (char*) malloc(sizeof(char));
+
+    gets(s);
+
+    while(s[t] != NULL)
+    {
+
+        if (s[t] == 32)
+        {
+
+            ms[k][g+1] = NULL;
+            g = 0;
+            k++;
+            ms[k] = (char*) malloc(256 * sizeof(char));
+        }
+        else
+        {
+            ms[k][g] = s[t];
+            g++;
+        }
+        t++;
+
+    }
+    pid_t p = fork();
+    waitpid(p, &st, 0);
+    if (st == 10)
+    {
+        execvp(ms[0],ms);
+        exit(1);
+    }
+    printf("\n Exit code %d ",WEXITSTATUS(st));
+
+}
