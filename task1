@@ -5,7 +5,10 @@
 #include <sys/wait.h>
 #include <stdio.h>
 int main()
+
 {
+    while(1)
+    {
     int t = 0 ,k = 0,g = 0,st = 10;
 
     char *s;
@@ -44,5 +47,6 @@ int main()
         exit(1);
     }
     printf("\n Exit code %d ",WEXITSTATUS(st));
+    }
 
 }
