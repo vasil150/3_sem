@@ -1,0 +1,51 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#include <unistd.h>
+#include <sys/wait.h>
+#include <stdio.h>
+#include <time.h>
+#include <string.h>
+struct dpipe
+{
+    int txd[2];
+    int rxd[2];
+};
+
+
+int main()
+{
+    int a, b, c, d;
+    struct dpipe dpipe_t;
+    char s1[256], s2[256], s3[256], s4[256],s[256];
+    pipe(dpipe_t.rxd);
+    pipe(dpipe_t.txd);
+    int fd[2];
+
+    int f = fork();
+    gets(s);
+    if(f > 0)
+    {
+        close(dpipe_t.rxd[1]);
+        close(dpipe_t.txd[0]);
+        write(dpipe_t.txd[1] ,s , strlen(s) + 1);
+        read(dpipe_t.rxd[0] ,s1, strlen(s) + 1);
+        close(dpipe_t.rxd[0]);
+        close(dpipe_t.txd[1]);
+        printf("%s\n parent\n", s1);
+    }
+    else
+    {
+        close(dpipe_t.rxd[0]);
+        close(dpipe_t.txd[1]);
+        int p;
+        write(dpipe_t.rxd[1], s, strlen(s) + 1);
+        read(dpipe_t.txd[0], s2, strlen(s) + 1);
+        close(dpipe_t.rxd[1]);
+        close(dpipe_t.txd[0]);
+        printf("%s\n Child\n",s2);
+        exit(0);
+    }
+
+    return 0;
+}
